@@ -28,15 +28,11 @@ class MarkovMachine {
    * */
 
   getChains() {
-    // TODO: implement this!
-
-    // iterate through the array of words
-    //figure out if threat key is already there
 
     const chainMap = new Map;
 
     for (let i = 0; i < this.words.length; i++) {
-
+      // TODO: refactor
       if (!chainMap.get(this.words[i])) {
         chainMap.set(this.words[i], [this.words[i + 1]]);
       } else {
@@ -56,11 +52,27 @@ class MarkovMachine {
     // - start at the first word in the input text
     // - find a random word from the following-words of that
     // - repeat until reaching the terminal null
+
+    let outputString = '';
+    let currentWord = this.words[0];
+
+
+    while (currentWord !== undefined) {
+      outputString = outputString + " " + currentWord;
+
+      const arrayOfWords = this.chains.get(currentWord);
+      const random = Math.floor(Math.random() * arrayOfWords.length);
+      currentWord = arrayOfWords[random];
+    }
+
+
+    return outputString;
+
   }
 }
 
-const catInHatMachine = new MarkovMachine("the cat in the hat");
-// // debugger;
-// console.log(catInHatMachine.chains.forEach((k, v) => console.log(k, v)));
+// const catInHatMachine = new MarkovMachine('The cat is in the hat. The cat is the cat. The hat is a cat.');
 
 
+
+// console.log(catInHatMachine.getText());
