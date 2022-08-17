@@ -1,3 +1,5 @@
+"use strict"
+
 /** Textual markov chain generator. */
 
 
@@ -29,17 +31,28 @@ class MarkovMachine {
 
   getChains() {
 
-    const chainMap = new Map;
+    const chainMap = new Map();
 
     for (let i = 0; i < this.words.length; i++) {
-      // TODO: refactor
-      if (!chainMap.get(this.words[i])) {
-        chainMap.set(this.words[i], [this.words[i + 1]]);
+
+      let currentWord = this.words[i]
+      let nextWord = this.words[i+1]
+
+      if (!nextWord){
+        nextWord = null
+      }
+
+      if (!chainMap.has(currentWord)) {
+        chainMap.set(currentWord, [nextWord]);
       } else {
-        chainMap.set[this.words[i], chainMap.get(this.words[i]).push(this.words[i + 1])];
+        chainMap.get(currentWord).push(nextWord)
+        // let values = chainMap.get(currentWord)
+        // let word = values.push(nextWord)
+        // chainMap.set(currentWord, word);
+
+
       }
     }
-
     return chainMap;
   }
 
@@ -47,7 +60,6 @@ class MarkovMachine {
    *  until it hits a null choice. */
 
   getText() {
-    // TODO: implement this!
 
     // - start at the first word in the input text
     // - find a random word from the following-words of that
@@ -57,12 +69,12 @@ class MarkovMachine {
     let currentWord = this.words[0];
 
 
-    while (currentWord !== undefined) {
+    while (currentWord !== null) {
       outputString = outputString + " " + currentWord;
 
-      const arrayOfWords = this.chains.get(currentWord);
-      const random = Math.floor(Math.random() * arrayOfWords.length);
-      currentWord = arrayOfWords[random];
+      const words = this.chains.get(currentWord);
+      const random = Math.floor(Math.random() * words.length);
+      currentWord = words[random];
     }
 
 
@@ -76,3 +88,5 @@ class MarkovMachine {
 
 
 // console.log(catInHatMachine.getText());
+
+
